@@ -1,3 +1,4 @@
+# https://codelabs.developers.google.com/codelabs/tensorflow-for-poets/index.html#0
 docker run -it -v $HOME/tf_files:/tf_files  gcr.io/tensorflow/tensorflow:latest-devel
 
 # /tf_files is in $HOME/tf_files
