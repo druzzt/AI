@@ -1,0 +1,16 @@
+			import linear_model
+			import tree
+
+from sklearn import neighbors
+
+data_train, data_test, target_train, target_test = train_test_split(iris.data, iris.target, test_size=0.2, random_state=50)
+				LogisticRegression
+				DecisionTreeClassifier
+
+c = neighbors.KNeighborsClassifier()
+
+c.fit(data_train, target_train)
+y_pred = c.predict(data_test)
+target_test
+
+mean_absolute_error(target_test, y_pred)

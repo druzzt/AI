@@ -1,0 +1,22 @@
+
+Zapoznaj sie z narzedziem [#TensorFlow].
+
+Wykorzystaj je do zaimplementowania problemu rozpoznawania obrazow.
+
+(Moze byc to problem klasyfikacji binarnej, np. twarz/nie twarz lub klasyfikacji wieloklasowej, np. sarna/kot/kon/pies).
+
+Do wykonania zadania mozesz uzyc dowolnej bazy danych, np. ktorejs ze strony www.face-rec.org/databases lub http://deeplearning.net/datasets
+
+(zwroc baczna uwage na warunki korzystania z kazdej z baz)
+
+Pamietaj o podziale przykladow na zbior treningowy i testowy
+(czesto w bazach danych obrazy sa juz tak podzielone), 
+nie zapomnij o sprawdzeniu efektywnosci zaimplementowanego modelu.
+
+
+Jesli przedstawiasz rozwiazanie tego zadania, nie moga Ci byc obce hasla:
+# SIEC NEURONOWA,
+# FUNKCJA AKTYWACJI,
+# PROPAGACJA WSTECZNA,
+# KONWOLUCJA,
+# KONWOLUCYJNA SIEC NEURONOWA

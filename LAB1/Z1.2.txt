@@ -1,0 +1,25 @@
+>>> import matplotlib.pyplot as plt
+>>> import numpy as np
+>>> from sklearn import datasets
+>>> iris = datasets.load_iris()
+>>> irdat = iris.data
+>>> irdat1F1 = irdat[:,1]
+>>> spread1 = irdat1F1
+>>> np.ones(25) * irdat1F1.mean()
+>>> center1 = np.ones(25) * irdat1F1.mean()
+>>> np.ones(len(list(irdat1F1))) * np.std(irdat1F1)
+>>> flier_high1 = np.ones(len(list(irdat1F1))) * np.std(irdat1F1)
+>>> flier_low1 = np.ones(len(list(irdat1F1))) * -np.std(irdat1F1)
+>>> data = np.concatenate((spread1, center1, flier_high1, flier_low1), 0)
+>>> plt.boxplot(data)
+>>> plt.figure()
+>>> plt.boxplot(data,1)
+>>> plt.figure()
+>>> plt.boxplot(data, 0, 'gD')
+>>> plt.figure()
+>>> plt.boxplot(data, 0, '')
+>>> plt.figure()
+>>> plt.boxplot(data, 0, 'rs', 0)
+>>> plt.figure()
+>>> plt.boxplot(data, 0, 'rs', 0, 0.75)
+>>> plt.show()

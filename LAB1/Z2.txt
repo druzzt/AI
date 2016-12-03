@@ -1,0 +1,59 @@
+http://scikit-learn.org/stable/modules/cross_validation.html
+
+>>> import numpy as np
+>>> from sklearn.model_selection import train_test_split
+>>> from sklearn import datasets
+>>> from sklearn import svm
+
+>>> iris = datasets.load_iris()
+>>> iris.data.shape, iris.target.shape
+((150, 4), (150,))
+We can now quickly sample a training set while holding out 40% of the data for testing (evaluating) our classifier:
+>>> X_train, X_test, y_train, y_test = train_test_split(
+...     iris.data, iris.target, test_size=0.4, random_state=0)
+
+>>> X_train.shape, y_train.shape
+((90, 4), (90,))
+>>> X_test.shape, y_test.shape
+((60, 4), (60,))
+
+>>> clf = svm.SVC(kernel='linear', C=1).fit(X_train, y_train)
+>>> clf.score(X_test, y_test)                           
+0.96...
+
+
+>>> from sklearn.model_selection import cross_val_score
+>>> clf = svm.SVC(kernel='linear', C=1)
+>>> scores = cross_val_score(clf, iris.data, iris.target, cv=5)
+>>> scores                                              
+array([ 0.96...,  1.  ...,  0.96...,  0.96...,  1.        ])
+The mean score and the 95% confidence interval of the score estimate are hence given by:
+>>> print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+Accuracy: 0.98 (+/- 0.03)
+
+>>> from sklearn import metrics
+>>> scores = cross_val_score(
+...     clf, iris.data, iris.target, cv=5, scoring='f1_macro')
+>>> scores                                              
+array([ 0.96...,  1.  ...,  0.96...,  0.96...,  1.        ])
+
+>>> from sklearn import preprocessing
+>>> X_train, X_test, y_train, y_test = train_test_split(
+...     iris.data, iris.target, test_size=0.4, random_state=0)
+>>> scaler = preprocessing.StandardScaler().fit(X_train)
+>>> X_train_transformed = scaler.transform(X_train)
+>>> clf = svm.SVC(C=1).fit(X_train_transformed, y_train)
+>>> X_test_transformed = scaler.transform(X_test)
+>>> clf.score(X_test_transformed, y_test)  
+0.9333...
+A Pipeline makes it easier to compose estimators, providing this behavior under cross-validation:
+>>> from sklearn.pipeline import make_pipeline
+>>> clf = make_pipeline(preprocessing.StandardScaler(), svm.SVC(C=1))
+>>> cross_val_score(clf, iris.data, iris.target, cv=cv)
+...                                                 
+array([ 0.97...,  0.93...,  0.95...])
+
+>>> from sklearn.model_selection import cross_val_predict
+>>> predicted = cross_val_predict(clf, iris.data, iris.target, cv=10)
+>>> metrics.accuracy_score(iris.target, predicted) 
+0.966...

@@ -1,0 +1,174 @@
+	print(iris['DESCR'])
+
+#1.1.
+	irdat = iris.data
+	irdat1 = iris.data[:50]
+	irdat2 = iris.data[50:100]
+	irdat3 = iris.data[100:150]
+	irdatA = [irdat1, irdat2, irdat3]
+	
+	>>> irdat1F1 = irdat1[:,0]
+	>>> irdat1F2 = irdat1[:,1]
+	>>> irdat1F3 = irdat1[:,2]
+	>>> irdat1F4 = irdat1[:,3]
+
+	set_from_list = set(digits.data.flatten())
+	list_from_set = list(set_from_list)
+
+#licznosc:
+	len(set_from_list)
+	
+	lub
+
+	np.bincount(list_from_set)
+
+
+#srednia:
+	digits.data.flatten().mean()
+
+#odchylenie standardowe:
+	np.std(digits.data.flatten(), axis=0)
+
+#minimum:
+	digits.data.flatten().min()
+
+#maksimum:
+	digits.data.flatten().max()
+
+#kwartyle:
+	list_from_set[:len(list_from_set)/4] 	 #- pierwszy kwartyl
+	list_from_set[:(len(list_from_set)/4)*2] #- drugi kwartyl
+	list_from_set[:(len(list_from_set)/4)*3] #- trzeci kwartyl
+	list_from_set[:(len(list_from_set)/4)*4] #- czwarty kwartyl 
+ 
+#describe()
+	>>> irdat1F1 = irdat1[:,0]
+	>>> irdat1F2 = irdat1[:,1]
+	>>> irdat1F3 = irdat1[:,2]
+	>>> irdat1F4 = irdat1[:,3]
+	>>> irdat1F4desc = pa.Series(irdat1F4)
+	>>> irdat1F4desc.describe()
+
+
+
+
+1.2.
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+from sklearn import datasets
+iris = datasets.load_iris()
+
+irdat = iris.data
+irdat1 = iris.data[:50]
+irdat1F1 = irdat1[:,0]
+
+# fake up some data
+#spread = np.random.rand(50) * 100
+spread = np.std(irdat1F1)
+#center = np.ones(25) * 50
+center = iris.target[:50]
+#flier_high = np.random.rand(10) * 100 + 100
+flier_high = irdat1F1.max()
+#flier_low = np.random.rand(10) * -100
+flier_low = irdat1F1.min()
+data = np.concatenate((spread, center, flier_high, flier_low), 0)
+
+# basic plot
+plt.boxplot(data)
+
+# notched plot
+plt.figure()
+plt.boxplot(data, 1)
+
+# change outlier point symbols
+plt.figure()
+plt.boxplot(data, 0, 'gD')
+
+# don't show outlier points
+plt.figure()
+plt.boxplot(data, 0, '')
+
+# horizontal boxes
+plt.figure()
+plt.boxplot(data, 0, 'rs', 0)
+
+# change whisker length
+plt.figure()
+plt.boxplot(data, 0, 'rs', 0, 0.75)
+
+# fake up some more data
+#spread = np.random.rand(50) * 100
+#center = np.ones(25) * 40
+#flier_high = np.random.rand(10) * 100 + 100
+#flier_low = np.random.rand(10) * -100
+#d2 = np.concatenate((spread, center, flier_high, flier_low), 0)
+#data.shape = (-1, 1)
+#d2.shape = (-1, 1)
+## data = concatenate( (data, d2), 1 )
+## Making a 2-D array only works if all the columns are the
+## same length.  If they are not, then use a list instead.
+## This is actually more efficient because boxplot converts
+## a 2-D array into a list of vectors internally anyway.
+#data = [data, d2, d2[::2, 0]]
+## multiple box plots on one figure
+#plt.figure()
+#plt.boxplot(data)
+
+#plt.show()
+
+
+
+
+
+
+
+
+
+
+
+#############################################
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn import datasets
+from sklearn.decomposition import PCA
+
+# import some data to play with
+iris = datasets.load_iris()
+X = iris.data[:, :1]  # we only take the first two features.
+Y = iris.target
+
+x_min, x_max = X[:, 0].min() - .5, X[:, 0].max() + .5
+y_min, y_max = X[:, 1].min() - .5, X[:, 1].max() + .5
+
+plt.figure(2, figsize=(8, 6))
+plt.clf()
+
+# Plot the training points
+plt.scatter(X[:, 0], X[:, 1], c=Y, cmap=plt.cm.Paired)
+plt.xlabel('Sepal length')
+plt.ylabel('Sepal width')
+
+plt.xlim(x_min, x_max)
+plt.ylim(y_min, y_max)
+plt.xticks(())
+plt.yticks(())
+
+# To getter a better understanding of interaction of the dimensions
+# plot the first three PCA dimensions
+fig = plt.figure(1, figsize=(8, 6))
+ax = Axes3D(fig, elev=-150, azim=110)
+X_reduced = PCA(n_components=3).fit_transform(iris.data)
+ax.scatter(X_reduced[:, 0], X_reduced[:, 1], X_reduced[:, 2], c=Y,
+           cmap=plt.cm.Paired)
+ax.set_title("First three PCA directions")
+ax.set_xlabel("1st eigenvector")
+ax.w_xaxis.set_ticklabels([])
+ax.set_ylabel("2nd eigenvector")
+ax.w_yaxis.set_ticklabels([])
+ax.set_zlabel("3rd eigenvector")
+ax.w_zaxis.set_ticklabels([])
+
+plt.show()
